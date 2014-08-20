@@ -1,0 +1,36 @@
+<?php
+    $this->headScript()
+        ->prependFile($this->basePath() . '/js/shopping-list.js');
+?>
+
+<?php $this->headScript()->captureStart() ?>
+ShoppingList.addUrl = '<?php echo $this->url('shopping-list', array('action'=>'add'));?>';
+ShoppingList.getEditFormUrl = '<?php echo $this->url('shopping-list', array('action'=>'get-edit-form'));?>';
+ShoppingList.editUrl = '<?php echo $this->url('shopping-list', array('action'=>'edit'));?>';
+ShoppingList.cancelEditUrl = '<?php echo $this->url('shopping-list', array('action'=>'cancelEdit'));?>';
+ShoppingList.deleteUrl = '<?php echo $this->url('shopping-list', array('action'=>'delete'));?>';
+<?php $this->headScript()->captureEnd() ?>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>&nbsp;</th>
+            <th>Title</th>
+            <th>&nbsp;</th>
+        </tr>
+    </thead>
+    <tbody class="shopping-list-items">
+        <?php echo $this->render('shopping-list/shopping-list/list'); ?>
+    </tbody>
+    <tbody>
+        <tr>
+            <td>Add new</td>
+            <td class="shopping-list-add-form">
+                <?php echo $this->render('shopping-list/shopping-list/edit-form', array('editForm' => $addForm)); ?>
+            </td>
+            <td>
+                <a href="javascript: void(0);" class="btn btn-default btn-success" onclick="ShoppingList.add();"><span class="glyphicon glyphicon-ok"></span></a>
+            </td>
+        </tr>
+    </tbody>
+</table>

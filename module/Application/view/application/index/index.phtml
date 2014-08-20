@@ -1,0 +1,32 @@
+<form action="/shopping-add.php">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Title</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php /*$num = 0; ?>
+            <?php foreach ($_SESSION['shopping-list'] as $listItem) {*/ ?>
+                <?php //$num++; ?>
+                <tr>
+                    <td>1</td>
+                    <td>dfdfdf</td>
+                    <td>
+                        <a href="#" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-pencil"></span></a>
+                        <a href="#" class="btn btn-default btn-danger"><span class="glyphicon glyphicon-remove"></span></a>
+                    </td>
+                </tr>
+            <?php //} ?>
+            <tr>
+                <td>Add new</td>
+                <td><input type="text" name="title" value="" class="form-control"></td>
+                <td>
+                    <a href="#" class="btn btn-default btn-success" onclick="ShoppingList.add($(this).parent().parent());"><span class="glyphicon glyphicon-ok"></span></a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</form>

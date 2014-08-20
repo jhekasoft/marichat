@@ -1,0 +1,15 @@
+.shopping-list-actions-default {
+    visibility: hidden;
+}
+
+.shopping-list-row:hover .shopping-list-actions-default {
+    visibility: visible;
+}
+
+.shopping-list-row-form {
+    display: none;
+}
+
+.shopping-list-actions-edit {
+    display: none;
+}

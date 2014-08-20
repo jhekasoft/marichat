@@ -1,0 +1,27 @@
+<?php foreach ($shoppingList as $shoppingListItem) { ?>
+    <tr class="shopping-list-row">
+        <td><?php echo $this->escapeHtml($shoppingListItem->id);?></td>
+        <td>
+            <div class="shopping-list-row-data shopping-list-row-data-<?php echo $this->escapeHtml($shoppingListItem->id);?>">
+                <?php echo $this->escapeHtml($shoppingListItem->title);?>
+            </div>
+            <div class="shopping-list-row-form shopping-list-row-form-<?php echo $this->escapeHtml($shoppingListItem->id);?>">
+            </div>
+            <?php if ($shoppingListItem->isAnotherUserEditing()) { ?>
+                Editing...
+            <?php } ?>
+        </td>
+        <td class="shopping-list-actions">
+            <div class="shopping-list-actions-default shopping-list-actions-default-<?php echo $shoppingListItem->id ?>">
+                <a href="javascript: void(0);" onclick="ShoppingList.getEditForm(<?php echo $shoppingListItem->id ?>);" class="btn btn-default btn-primary" title="Edit"><span class="glyphicon glyphicon-pencil"></span></a>
+                <a href="javascript: void(0);" onclick="ShoppingList.delete(<?php echo $shoppingListItem->id ?>);" class="btn btn-default btn-danger" title="Delete"><span class="glyphicon glyphicon-remove"></span></a>
+                <?php /* ?><a href="javascript: void(0);" class="btn btn-default btn-primary" title="Move Up"><span class="glyphicon glyphicon-chevron-up"></span></a>
+                <a href="javascript: void(0);" class="btn btn-default btn-primary" title="Move Down"><span class="glyphicon glyphicon-chevron-down"></span></a><?php */ ?>
+            </div>
+            <div class="shopping-list-actions-edit shopping-list-actions-edit-<?php echo $shoppingListItem->id ?>">
+                <a href="javascript: void(0);" class="btn btn-default btn-success" onclick="ShoppingList.edit(<?php echo $shoppingListItem->id ?>);" title="Save"><span class="glyphicon glyphicon-ok"></span></a>
+                <a href="javascript: void(0);" class="btn btn-default btn-default" onclick="ShoppingList.cancelEdit(<?php echo $shoppingListItem->id ?>);" title="Cancel"><span class="glyphicon glyphicon-remove"></span></a>
+            </div>
+        </td>
+    </tr>
+<?php }; ?>
