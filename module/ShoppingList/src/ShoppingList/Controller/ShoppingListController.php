@@ -34,13 +34,17 @@ class ShoppingListController extends AbstractActionController
     
     public function indexAction()
     {
+        $config = $this->getServiceLocator()->get('Config');
         $model = new ShoppingList();
         $addForm = new ShoppingListForm();
         $addForm->setInputFilter($model->getInputFilter());
         
+        $uri = $this->getRequest()->getUri();
+        
         return new ViewModel(array(
             'shoppingList' => $this->getShoppingListTable()->fetchAll(),
             'addForm' => $addForm,
+            'webSocketsUlr' => 'ws://' . $uri->getHost() . ':' . $config['web_sockets']['port'],
         ));
     }
 
@@ -104,73 +108,12 @@ class ShoppingListController extends AbstractActionController
                     ));
                 }
                 
-                $nowDateTime = new \DateTime();
-                
-                // Block
-                try {
-                    $item->editing = 1;
-                    $item->editor_session_id = session_id();
-                    $item->editing_datetime = $nowDateTime->format(\DateTime::ISO8601);
-                    $this->getShoppingListTable()->saveItem($item);
-                }
-                catch (\Exception $ex) {
-                    return new JsonModel(array(
-                        'result' => 'fail',
-                        'errorDetails' => 'Blocking has failed.',
-                    ));
-                }
-                
                 $form = new ShoppingListForm();
                 $form->bind($item);
                 
                 return new JsonModel(array(
                     'result' => 'ok',
                     'editFormHtml' => $this->renderEditForm($form),
-                ));
-            }
-        }
-        
-        return new JsonModel(array(
-            'result' => 'fail'
-        ));
-    }
-    
-    public function cancelEditAction()
-    {
-        if (!$this->getRequest()->isXmlHttpRequest()) {
-            throw new \Exception("Not ajax request");
-        }
-        
-        $request = $this->getRequest();
-        if ($request->isPost()) {
-            $id = (int) $request->getPost('id', 0);
-
-            if ($id) {
-                try {
-                    $item = $this->getShoppingListTable()->getItem($id);
-                }
-                catch (\Exception $ex) {
-                    return new JsonModel(array(
-                        'result' => 'fail',
-                        'errorDetails' => $ex->getMessage(),
-                    ));
-                }
-                
-                $nowDateTime = new \DateTime();
-                
-                // Block
-                try {
-                    $item->editing = 0;
-                    $this->getShoppingListTable()->saveItem($item);
-                }
-                catch (\Exception $ex) {
-                    return new JsonModel(array(
-                        'result' => 'fail',
-                    ));
-                }
-                
-                return new JsonModel(array(
-                    'result' => 'ok',
                 ));
             }
         }
@@ -208,7 +151,6 @@ class ShoppingListController extends AbstractActionController
                 $item->exchangeArray($form->getData());
                 $nowDateTime = new \DateTime();
                 $item->datetime = $nowDateTime->format(\DateTime::ISO8601);
-                $item->editing = 0;
                 $this->getShoppingListTable()->saveItem($item);
 
                 $form->reset();
@@ -252,6 +194,55 @@ class ShoppingListController extends AbstractActionController
         
         return new JsonModel(array(
             'result' => 'fail'
+        ));
+    }
+    
+    public function changeStatusAction()
+    {
+        if (!$this->getRequest()->isXmlHttpRequest()) {
+            throw new \Exception("Not ajax request");
+        }
+
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            $id = (int) $request->getPost('id', 0);
+            try {
+                $item = $this->getShoppingListTable()->getItem($id);
+            }
+            catch (\Exception $ex) {
+                return new JsonModel(array(
+                    'result' => 'fail',
+                    'errorDetails' => $ex->getMessage(),
+                ));
+            }
+
+            $item->status = 'done';
+
+            if ($request->getPost('status') == 'undone') {
+                $item->status = 'undone';
+            }
+            $this->getShoppingListTable()->saveItem($item);
+
+            return new JsonModel(array(
+                'result' => 'ok',
+                'listHtml' => $this->renderList(),
+            ));
+        }
+        
+        return new JsonModel(array(
+            'result' => 'fail'
+        ));
+    }
+    
+    public function getListAction()
+    {
+        if (!$this->getRequest()->isXmlHttpRequest()) {
+            throw new \Exception("Not ajax request");
+        }
+        
+        return new JsonModel(array(
+            'result' => 'ok',
+            'listHtml' => $this->renderList(),
         ));
     }
     

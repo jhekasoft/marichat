@@ -26,16 +26,8 @@ class ShoppingListForm extends Form
                 'class' => 'form-control',
             ),
         ));
-//        $this->add(array(
-//            'name' => 'submit',
-//            'type' => 'Submit',
-//            'attributes' => array(
-//                'value' => 'Go',
-//                'id' => 'submitbutton',
-//            ),
-//        ));
     }
-    
+
     public function reset()
     {
         $elements = $this->getElements();

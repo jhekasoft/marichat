@@ -4,6 +4,7 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'ShoppingList\Controller\ShoppingList' => 'ShoppingList\Controller\ShoppingListController',
+            'ShoppingList\Controller\Server' => 'ShoppingList\Controller\ServerController',
         ),
     ),
     'router' => array(
@@ -24,9 +25,27 @@ return array(
             ),
         ),
     ),
+    'console' => array(
+        'router' => array(
+            'routes' => array(
+                'shopping-list-server-start' => array(
+                    'options' => array(
+                        'route'    => 'shopping-list-server start',
+                        'defaults' => array(
+                            'controller' => 'ShoppingList\Controller\Server',
+                            'action'     => 'start'
+                        )
+                    )
+                )
+            )
+        )
+    ),
     'view_manager' => array(
         'template_path_stack' => array(
             'shopping-list' => __DIR__ . '/../view',
         ),
+    ),
+    'web_sockets' => array(
+        'port' => 9000,
     ),
 );

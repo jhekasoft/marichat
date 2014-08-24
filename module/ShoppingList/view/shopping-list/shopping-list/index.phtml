@@ -7,16 +7,34 @@
 ShoppingList.addUrl = '<?php echo $this->url('shopping-list', array('action'=>'add'));?>';
 ShoppingList.getEditFormUrl = '<?php echo $this->url('shopping-list', array('action'=>'get-edit-form'));?>';
 ShoppingList.editUrl = '<?php echo $this->url('shopping-list', array('action'=>'edit'));?>';
-ShoppingList.cancelEditUrl = '<?php echo $this->url('shopping-list', array('action'=>'cancelEdit'));?>';
 ShoppingList.deleteUrl = '<?php echo $this->url('shopping-list', array('action'=>'delete'));?>';
+ShoppingList.getListUrl = '<?php echo $this->url('shopping-list', array('action'=>'get-list'));?>';
+ShoppingList.changeStatusUrl = '<?php echo $this->url('shopping-list', array('action'=>'change-status'));?>';
+ShoppingList.webSocketConnection = new WebSocket('<?php echo $webSocketsUlr; ?>');
+
+ShoppingList.webSocketConnection.onopen = function(e) {
+    ShoppingList.onlineStatusOn();
+};
+
+ShoppingList.webSocketConnection.onclose = function(e) {
+    ShoppingList.onlineStatusOff();
+};
+
+ShoppingList.webSocketConnection.onmessage = function(e) {
+    ShoppingList.handleNotification(e.data);
+};
 <?php $this->headScript()->captureEnd() ?>
+
+<div class="online-status">
+    <div class="online-status-offline"><span class="label label-default"><span class="glyphicon glyphicon-remove"></span> Offline</span></div>
+    <div class="online-status-online"><span class="label label-success"><span class="glyphicon glyphicon-ok"></span> Online</span></div>
+</div>
 
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>&nbsp;</th>
             <th>Title</th>
-            <th>&nbsp;</th>
+            <th class="shopping-list-actions">Actions</th>
         </tr>
     </thead>
     <tbody class="shopping-list-items">
@@ -24,11 +42,14 @@ ShoppingList.deleteUrl = '<?php echo $this->url('shopping-list', array('action'=
     </tbody>
     <tbody>
         <tr>
-            <td>Add new</td>
-            <td class="shopping-list-add-form">
-                <?php echo $this->render('shopping-list/shopping-list/edit-form', array('editForm' => $addForm)); ?>
-            </td>
             <td>
+                <p><?php echo $this->translate('Add new:'); ?></p>
+                <div class="shopping-list-add-form">
+                    <?php echo $this->render('shopping-list/shopping-list/edit-form', array('editForm' => $addForm)); ?>
+                </div>
+            </td>
+            <td class="shopping-list-actions">
+                <p>&nbsp;</p>
                 <a href="javascript: void(0);" class="btn btn-default btn-success" onclick="ShoppingList.add();"><span class="glyphicon glyphicon-ok"></span></a>
             </td>
         </tr>
