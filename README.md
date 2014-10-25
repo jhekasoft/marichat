@@ -22,3 +22,6 @@ return array(
 Run `php composer.phar update`.
 
 Run web-sockets server in `shopping-list/public/`: `php -q index.php shopping-list-server start`
+
+You may use `supervisor` utility for running web-socket server. Example of config
+is placed here `config/external/supervisor/shopping-list.conf`.
