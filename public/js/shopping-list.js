@@ -1,4 +1,5 @@
 var ShoppingList = {
+    webSocketsUlr: '',
     addUrl: '',
     getEditFormUrl: '',
     editUrl: '',
@@ -15,6 +16,8 @@ var ShoppingList = {
     notifyMessageUpdated: 'updated',
     notifyMessageDeleted: 'deleted',
     notifyMessageStatusChanged: 'statusChanged',
+    connectionCheckTimeout: null,
+    checkConnectionTime: 10000,
     add: function() {
         $.ajax({
             type: "POST",
@@ -161,6 +164,28 @@ var ShoppingList = {
             }
         });
     },
+    createSocketConnection: function() {
+        this.webSocketConnection = new WebSocket(this.webSocketsUlr);
+
+        this.webSocketConnection.onopen = function(e) {
+            ShoppingList.onlineStatusOn();
+        };
+
+        this.webSocketConnection.onclose = function(e) {
+            ShoppingList.onlineStatusOff();
+
+            ShoppingList.connectionCheckTimeout = setTimeout(function() {
+                ShoppingList.checkSocketConnection();
+            }, ShoppingList.checkConnectionTime);
+        };
+
+        this.webSocketConnection.onmessage = function(e) {
+            ShoppingList.handleNotification(e.data);
+        };
+    },
+    isOnline: function() {
+        return ShoppingList.webSocketConnectionIsOpened;
+    },
     onlineStatusOn: function() {
         ShoppingList.webSocketConnectionIsOpened = true;
 
@@ -168,10 +193,22 @@ var ShoppingList = {
         $('.online-status-offline').hide();
     },
     onlineStatusOff: function() {
+        ShoppingList.webSocketConnection = null;
         ShoppingList.webSocketConnectionIsOpened = false;
 
         $('.online-status-online').hide();
         $('.online-status-offline').show();
+    },
+    checkSocketConnection: function() {
+        if (this.isOnline()) {
+            clearTimeout(this.connectionCheckTimeout)
+        } else if(!ShoppingList.webSocketConnection) {
+            this.createSocketConnection();
+
+            if (this.connectionCheckTimeout) {
+                return;
+            }
+        }
     },
     sendNotification: function(messageJson) {
         if (!this.webSocketConnectionIsOpened) {

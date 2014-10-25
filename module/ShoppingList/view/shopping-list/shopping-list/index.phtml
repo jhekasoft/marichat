@@ -1,28 +1,19 @@
 <?php
+    $assetsVersion = '0.2';
     $this->headScript()
-        ->prependFile($this->basePath() . '/js/shopping-list.js');
+        ->prependFile($this->basePath() . '/js/shopping-list.js?version=' . $assetsVersion);
 ?>
 
 <?php $this->headScript()->captureStart() ?>
+ShoppingList.webSocketsUlr = '<?php echo $webSocketsUlr;?>';
 ShoppingList.addUrl = '<?php echo $this->url('shopping-list', array('action'=>'add'));?>';
 ShoppingList.getEditFormUrl = '<?php echo $this->url('shopping-list', array('action'=>'get-edit-form'));?>';
 ShoppingList.editUrl = '<?php echo $this->url('shopping-list', array('action'=>'edit'));?>';
 ShoppingList.deleteUrl = '<?php echo $this->url('shopping-list', array('action'=>'delete'));?>';
 ShoppingList.getListUrl = '<?php echo $this->url('shopping-list', array('action'=>'get-list'));?>';
 ShoppingList.changeStatusUrl = '<?php echo $this->url('shopping-list', array('action'=>'change-status'));?>';
-ShoppingList.webSocketConnection = new WebSocket('<?php echo $webSocketsUlr; ?>');
+ShoppingList.createSocketConnection();
 
-ShoppingList.webSocketConnection.onopen = function(e) {
-    ShoppingList.onlineStatusOn();
-};
-
-ShoppingList.webSocketConnection.onclose = function(e) {
-    ShoppingList.onlineStatusOff();
-};
-
-ShoppingList.webSocketConnection.onmessage = function(e) {
-    ShoppingList.handleNotification(e.data);
-};
 <?php $this->headScript()->captureEnd() ?>
 
 <div class="online-status">
