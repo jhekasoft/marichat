@@ -46,6 +46,6 @@ return array(
         ),
     ),
     'web_sockets' => array(
-        'port' => 9000,
+        'port' => 9010,
     ),
 );
