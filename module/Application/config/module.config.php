@@ -15,7 +15,7 @@ return array(
                 'options' => array(
                     'route'    => '/',
                     'defaults' => array(
-                        'controller' => 'ShoppingList\Controller\ShoppingList',
+                        'controller' => 'Chat\Controller\Chat',
                         'action'     => 'index',
                     ),
                 ),

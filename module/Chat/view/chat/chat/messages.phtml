@@ -1,0 +1,10 @@
+<?php foreach ($messages as $message) { ?>
+    <tr class="chat-row">
+        <td class="chat-row-time">
+            <?php echo $this->escapeHtml($message->time);?>
+        </td>
+        <td>
+            <?php echo $this->escapeHtml($message->text);?>
+        </td>
+    </tr>
+<?php }; ?>

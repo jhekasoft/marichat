@@ -1,10 +1,10 @@
 <?php
 
-namespace ShoppingList\Model;
+namespace Chat\Model;
 
 use Zend\Db\TableGateway\TableGateway;
 
-class ShoppingListTable
+class ChatTable
 {
 
     protected $tableGateway;
@@ -28,7 +28,7 @@ class ShoppingListTable
         return $row;
     }
 
-    public function saveItem(ShoppingList $model) {
+    public function saveItem(Chat $model) {
         $allData = get_object_vars($model);
         $data = array();
         foreach ($allData as $allDataName => $allDataValue) {
@@ -44,7 +44,7 @@ class ShoppingListTable
             if ($this->getItem($id)) {
                 $this->tableGateway->update($data, array('id' => $id));
             } else {
-                throw new \Exception('Shopping list id does not exist');
+                throw new \Exception('Message id does not exist');
             }
         }
     }

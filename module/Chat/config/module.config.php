@@ -3,22 +3,22 @@
 return array(
     'controllers' => array(
         'invokables' => array(
-            'ShoppingList\Controller\ShoppingList' => 'ShoppingList\Controller\ShoppingListController',
-            'ShoppingList\Controller\Server' => 'ShoppingList\Controller\ServerController',
+            'Chat\Controller\Chat' => 'Chat\Controller\ChatController',
+            'Chat\Controller\Server' => 'Chat\Controller\ServerController',
         ),
     ),
     'router' => array(
         'routes' => array(
-            'shopping-list' => array(
+            'chat' => array(
                 'type' => 'segment',
                 'options' => array(
-                    'route' => '/shopping-list[/][:action][/:id]',
+                    'route' => '/chat[/][:action][/:id]',
                     'constraints' => array(
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
                         'id' => '[0-9]+',
                     ),
                     'defaults' => array(
-                        'controller' => 'ShoppingList\Controller\ShoppingList',
+                        'controller' => 'Chat\Controller\Chat',
                         'action' => 'index',
                     ),
                 ),
@@ -28,11 +28,11 @@ return array(
     'console' => array(
         'router' => array(
             'routes' => array(
-                'shopping-list-server-start' => array(
+                'chat-server-start' => array(
                     'options' => array(
-                        'route'    => 'shopping-list-server start',
+                        'route'    => 'chat-server start',
                         'defaults' => array(
-                            'controller' => 'ShoppingList\Controller\Server',
+                            'controller' => 'Chat\Controller\Server',
                             'action'     => 'start'
                         )
                     )
@@ -42,7 +42,7 @@ return array(
     ),
     'view_manager' => array(
         'template_path_stack' => array(
-            'shopping-list' => __DIR__ . '/../view',
+            'chat' => __DIR__ . '/../view',
         ),
     ),
     'web_sockets' => array(

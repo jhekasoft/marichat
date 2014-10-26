@@ -1,26 +1,26 @@
 <?php
 
-namespace ShoppingList\Form;
+namespace Chat\Form;
 
 use Zend\Form\Form;
 
-class ShoppingListForm extends Form
+class ChatForm extends Form
 {
 
     public function __construct()
     {
         // we want to ignore the name passed
-        parent::__construct('shopping-list');
+        parent::__construct('chat');
 
         $this->add(array(
             'name' => 'id',
             'type' => 'Hidden',
         ));
         $this->add(array(
-            'name' => 'title',
+            'name' => 'text',
             'type' => 'Text',
             'options' => array(
-                'label' => 'Title',
+                'label' => 'Text',
             ),
             'attributes' => array(
                 'class' => 'form-control',

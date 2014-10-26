@@ -1,11 +1,11 @@
 <?php
 
-namespace ShoppingList\Server;
+namespace Chat\Server;
 
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 
-class ShoppingList implements MessageComponentInterface
+class Chat implements MessageComponentInterface
 {
 
     protected $clients;

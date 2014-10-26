@@ -1,4 +1,4 @@
-var ShoppingList = {
+var Chat = {
     webSocketsUlr: '',
     addUrl: '',
     getEditFormUrl: '',
@@ -9,7 +9,7 @@ var ShoppingList = {
     isEditingRowNow: false, // current user edit items
     webSocketConnection: null,
     webSocketConnectionIsOpened: false,
-    notifySection: 'shopping-list',
+    notifySection: 'chat',
     notifyMessageBeginEditing: 'beginEditing',
     notifyMessageCancelEditing: 'cancelEditing',
     notifyMessageAdded: 'added',
@@ -21,47 +21,47 @@ var ShoppingList = {
     add: function() {
         $.ajax({
             type: "POST",
-            url: ShoppingList.addUrl,
-            data: $('.shopping-list-add-form input').serialize()
+            url: Chat.addUrl,
+            data: $('.chat-add-form input').serialize()
         }).done(function(response) {
             if ('ok' == response.result && response.listHtml) {
-                $('.shopping-list-items').html(response.listHtml);
+                $('.chat-items').html(response.listHtml);
             }
 
             if (response.addFormHtml) {
-                $('.shopping-list-add-form').html(response.addFormHtml);
+                $('.chat-add-form').html(response.addFormHtml);
             }
 
             // Send notification for other users
-            ShoppingList.sendNotification({
-                message: ShoppingList.notifyMessageAdded
+            Chat.sendNotification({
+                message: Chat.notifyMessageAdded
             });
         });
     },
     getEditForm: function(id) {
-        ShoppingList.isEditingRowNow = true;
+        Chat.isEditingRowNow = true;
 
-        ShoppingList.showRowLoadingSpiner(id);
+        Chat.showRowLoadingSpiner(id);
 
         $.ajax({
             type: "POST",
-            url: ShoppingList.getEditFormUrl,
+            url: Chat.getEditFormUrl,
             data: {'id': id}
         }).done(function(response) {
-            ShoppingList.hideRowLoadingSpiner(id);
+            Chat.hideRowLoadingSpiner(id);
 
             if ('ok' == response.result && response.editFormHtml) {
-                ShoppingList.cancelAllEdit();
+                Chat.cancelAllEdit();
 
-                $('.shopping-list-row-form-' + id).html(response.editFormHtml);
-                $('.shopping-list-row-form-' + id).show();
-                $('.shopping-list-row-data-' + id).hide();
-                $('.shopping-list-actions-default-' + id).hide();
-                $('.shopping-list-actions-edit-' + id).show();
+                $('.chat-row-form-' + id).html(response.editFormHtml);
+                $('.chat-row-form-' + id).show();
+                $('.chat-row-data-' + id).hide();
+                $('.chat-actions-default-' + id).hide();
+                $('.chat-actions-edit-' + id).show();
 
                 // Send notification for other users
-                ShoppingList.sendNotification({
-                    message: ShoppingList.notifyMessageBeginEditing, id: id
+                Chat.sendNotification({
+                    message: Chat.notifyMessageBeginEditing, id: id
                 });
             }
 
@@ -71,44 +71,44 @@ var ShoppingList = {
         });
     },
     showRowLoadingSpiner: function(id) {
-        $('.shopping-list-row-loading-' + id).css('display', 'inline-block');
+        $('.chat-row-loading-' + id).css('display', 'inline-block');
     },
     hideRowLoadingSpiner: function(id) {
-        $('.shopping-list-row-loading-' + id).hide();
+        $('.chat-row-loading-' + id).hide();
     },
     cancelEdit: function(id) {
-        $('.shopping-list-row-form-' + id).hide();
-        $('.shopping-list-row-data-' + id).show();
-        $('.shopping-list-actions-default-' + id).show();
-        $('.shopping-list-actions-edit-' + id).hide();
+        $('.chat-row-form-' + id).hide();
+        $('.chat-row-data-' + id).show();
+        $('.chat-actions-default-' + id).show();
+        $('.chat-actions-edit-' + id).hide();
 
-        ShoppingList.isEditingRowNow = false;
+        Chat.isEditingRowNow = false;
 
         // Send notification for other users
-        ShoppingList.sendNotification({
-            message: ShoppingList.notifyMessageCancelEditing, id: id
+        Chat.sendNotification({
+            message: Chat.notifyMessageCancelEditing, id: id
         });
     },
     cancelAllEdit: function() {
-        $('.shopping-list-row-form').hide();
-        $('.shopping-list-row-data').show();
-        $('.shopping-list-actions-default').show();
-        $('.shopping-list-actions-edit').hide();
+        $('.chat-row-form').hide();
+        $('.chat-row-data').show();
+        $('.chat-actions-default').show();
+        $('.chat-actions-edit').hide();
     },
     edit: function(id) {
         $.ajax({
             type: "POST",
-            url: ShoppingList.editUrl,
-            data: $('.shopping-list-row-form-' + id + ' input').serialize()
+            url: Chat.editUrl,
+            data: $('.chat-row-form-' + id + ' input').serialize()
         }).done(function(response) {
             if ('ok' == response.result && response.listHtml) {
-                $('.shopping-list-items').html(response.listHtml);
+                $('.chat-items').html(response.listHtml);
 
-                ShoppingList.isEditingRowNow = false;
+                Chat.isEditingRowNow = false;
 
                 // Send notification for other users
-                ShoppingList.sendNotification({
-                    message: ShoppingList.notifyMessageUpdated, id: id
+                Chat.sendNotification({
+                    message: Chat.notifyMessageUpdated, id: id
                 });
             }
         });
@@ -120,24 +120,24 @@ var ShoppingList = {
 
         $.ajax({
             type: "POST",
-            url: ShoppingList.deleteUrl,
+            url: Chat.deleteUrl,
             data: {'id': id}
         }).done(function(response) {
-            $('.shopping-list-items').html(response.html);
+            $('.chat-items').html(response.html);
 
             // Send notification for other users
-            ShoppingList.sendNotification({
-                message: ShoppingList.notifyMessageDeleted, id: id
+            Chat.sendNotification({
+                message: Chat.notifyMessageDeleted, id: id
             });
         });
     },
     refreshList: function() {
         $.ajax({
             type: "POST",
-            url: ShoppingList.getListUrl,
+            url: Chat.getListUrl,
         }).done(function(response) {
             if ('ok' == response.result && response.listHtml) {
-                $('.shopping-list-items').html(response.listHtml);
+                $('.chat-items').html(response.listHtml);
             }
         });
     },
@@ -151,15 +151,15 @@ var ShoppingList = {
     changeStatus: function(id, status) {
         $.ajax({
             type: "POST",
-            url: ShoppingList.changeStatusUrl,
+            url: Chat.changeStatusUrl,
             data: {id: id, status: status}
         }).done(function(response) {
             if ('ok' == response.result && response.listHtml) {
-                $('.shopping-list-items').html(response.listHtml);
+                $('.chat-items').html(response.listHtml);
 
                 // Send notification for other users
-                ShoppingList.sendNotification({
-                    message: ShoppingList.notifyMessageStatusChanged, id: id
+                Chat.sendNotification({
+                    message: Chat.notifyMessageStatusChanged, id: id
                 });
             }
         });
@@ -168,33 +168,33 @@ var ShoppingList = {
         this.webSocketConnection = new WebSocket(this.webSocketsUlr);
 
         this.webSocketConnection.onopen = function(e) {
-            ShoppingList.onlineStatusOn();
+            Chat.onlineStatusOn();
         };
 
         this.webSocketConnection.onclose = function(e) {
-            ShoppingList.onlineStatusOff();
+            Chat.onlineStatusOff();
 
-            ShoppingList.connectionCheckTimeout = setTimeout(function() {
-                ShoppingList.checkSocketConnection();
-            }, ShoppingList.checkConnectionTime);
+            Chat.connectionCheckTimeout = setTimeout(function() {
+                Chat.checkSocketConnection();
+            }, Chat.checkConnectionTime);
         };
 
         this.webSocketConnection.onmessage = function(e) {
-            ShoppingList.handleNotification(e.data);
+            Chat.handleNotification(e.data);
         };
     },
     isOnline: function() {
-        return ShoppingList.webSocketConnectionIsOpened;
+        return Chat.webSocketConnectionIsOpened;
     },
     onlineStatusOn: function() {
-        ShoppingList.webSocketConnectionIsOpened = true;
+        Chat.webSocketConnectionIsOpened = true;
 
         $('.online-status-online').show();
         $('.online-status-offline').hide();
     },
     onlineStatusOff: function() {
-        ShoppingList.webSocketConnection = null;
-        ShoppingList.webSocketConnectionIsOpened = false;
+        Chat.webSocketConnection = null;
+        Chat.webSocketConnectionIsOpened = false;
 
         $('.online-status-online').hide();
         $('.online-status-offline').show();
@@ -202,7 +202,7 @@ var ShoppingList = {
     checkSocketConnection: function() {
         if (this.isOnline()) {
             clearTimeout(this.connectionCheckTimeout)
-        } else if(!ShoppingList.webSocketConnection) {
+        } else if(!Chat.webSocketConnection) {
             this.createSocketConnection();
 
             if (this.connectionCheckTimeout) {
@@ -225,22 +225,22 @@ var ShoppingList = {
             return false;
         }
 
-        if (messageJson.message == ShoppingList.notifyMessageBeginEditing) {
-            $('.shopping-list-row-editing-' + messageJson.id).show();
+        if (messageJson.message == Chat.notifyMessageBeginEditing) {
+            $('.chat-row-editing-' + messageJson.id).show();
         }
 
-        if (messageJson.message == ShoppingList.notifyMessageCancelEditing) {
-            $('.shopping-list-row-editing-' + messageJson.id).hide();
+        if (messageJson.message == Chat.notifyMessageCancelEditing) {
+            $('.chat-row-editing-' + messageJson.id).hide();
         }
 
-        if (messageJson.message == ShoppingList.notifyMessageUpdated) {
-            $('.shopping-list-row-editing-' + messageJson.id).hide();
+        if (messageJson.message == Chat.notifyMessageUpdated) {
+            $('.chat-row-editing-' + messageJson.id).hide();
             this.refreshListIfNotEditing();
         }
 
-        if (messageJson.message == ShoppingList.notifyMessageAdded ||
-                messageJson.message == ShoppingList.notifyMessageDeleted ||
-                messageJson.message == ShoppingList.notifyMessageStatusChanged) {
+        if (messageJson.message == Chat.notifyMessageAdded ||
+                messageJson.message == Chat.notifyMessageDeleted ||
+                messageJson.message == Chat.notifyMessageStatusChanged) {
             this.refreshListIfNotEditing();
         }
     }

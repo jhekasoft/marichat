@@ -1,28 +1,30 @@
 <?php
 
-namespace ShoppingList\Model;
+namespace Chat\Model;
 
 use Zend\InputFilter\InputFilter;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 
-class ShoppingList
+class Chat
 {
     protected $inputFilter;
 
     public $id;
-    public $title;
-    public $datetime;
-    public $status;
+    public $time;
+    public $user_id;
+    public $text;
+    public $chat_id;
 
     public function exchangeArray($data)
     {
         $this->id = (!empty($data['id'])) ? $data['id'] : null;
-        $this->title = (!empty($data['title'])) ? $data['title'] : null;
-        $this->datetime = (!empty($data['datetime'])) ? $data['datetime'] : null;
-        $this->status = (!empty($data['status'])) ? $data['status'] : null;
+        $this->time = (!empty($data['time'])) ? $data['time'] : null;
+        $this->user_id = (!empty($data['user_id'])) ? $data['user_id'] : null;
+        $this->text = (!empty($data['text'])) ? $data['text'] : null;
+        $this->chat_id = (!empty($data['chat_id'])) ? $data['chat_id'] : null;
     }
-    
+
     public function getArrayCopy()
     {
         return get_object_vars($this);
@@ -42,7 +44,15 @@ class ShoppingList
             ));
 
             $inputFilter->add(array(
-                'name' => 'title',
+                'name' => 'user_id',
+                'required' => false,
+                'filters' => array(
+                    array('name' => 'Int'),
+                ),
+            ));
+
+            $inputFilter->add(array(
+                'name' => 'text',
                 'required' => true,
                 'filters' => array(
                     array('name' => 'StripTags'),
@@ -54,9 +64,16 @@ class ShoppingList
                         'options' => array(
                             'encoding' => 'UTF-8',
                             'min' => 1,
-                            'max' => 100,
                         ),
                     ),
+                ),
+            ));
+
+            $inputFilter->add(array(
+                'name' => 'chat_id',
+                'required' => false,
+                'filters' => array(
+                    array('name' => 'Int'),
                 ),
             ));
 
@@ -65,7 +82,7 @@ class ShoppingList
 
         return $this->inputFilter;
     }
-    
+
     public function isDone()
     {
         return 'done' == $this->status;

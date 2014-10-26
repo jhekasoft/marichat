@@ -1,11 +1,11 @@
 <?php
 
-namespace ShoppingList;
+namespace Chat;
 
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
-use ShoppingList\Model\ShoppingListTable;
-use ShoppingList\Model\ShoppingList;
+use Chat\Model\ChatTable;
+use Chat\Model\Chat;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\TableGateway\TableGateway;
 
@@ -29,21 +29,21 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface
     {
         return include __DIR__ . '/config/module.config.php';
     }
-    
+
     public function getServiceConfig()
     {
         return array(
             'factories' => array(
-                'ShoppingList\Model\ShoppingListTable' => function($sm) {
-                    $tableGateway = $sm->get('ShoppingListTableGateway');
-                    $table = new ShoppingListTable($tableGateway);
+                'Chat\Model\ChatTable' => function($sm) {
+                    $tableGateway = $sm->get('ChatTableGateway');
+                    $table = new ChatTable($tableGateway);
                     return $table;
                 },
-                'ShoppingListTableGateway' => function ($sm) {
+                'ChatTableGateway' => function ($sm) {
                     $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
                     $resultSetPrototype = new ResultSet();
-                    $resultSetPrototype->setArrayObjectPrototype(new ShoppingList());
-                    return new TableGateway('shopping_list', $dbAdapter, null, $resultSetPrototype);
+                    $resultSetPrototype->setArrayObjectPrototype(new Chat());
+                    return new TableGateway('messages', $dbAdapter, null, $resultSetPrototype);
                 },
             ),
         );
