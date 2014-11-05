@@ -1,5 +1,5 @@
-Shopping-list
-=============
+Marichat
+========
 
 Installation
 ------------
