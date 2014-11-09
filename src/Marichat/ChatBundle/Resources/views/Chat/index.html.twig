@@ -1,0 +1,54 @@
+{% extends "MarichatChatBundle::layout.html.twig" %}
+
+{% block title "(2) Marichat" %}
+
+{#% block content_header '' %#}
+
+{% block content %}
+    <div class="online-status">
+        <div class="online-status-offline"><span class="label label-default"><span class="glyphicon glyphicon-remove"></span> Offline</span></div>
+        <div class="online-status-online"><span class="label label-success"><span class="glyphicon glyphicon-ok"></span> Online</span></div>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Time</th>
+                <th>Message</th>
+            </tr>
+        </thead>
+        <tbody class="chat-items">
+            <tr class="chat-row">
+                <td class="chat-row-time">
+                    09:30
+                </td>
+                <td>
+                    Test message 1
+                </td>
+            </tr>
+            <tr class="chat-row">
+                <td class="chat-row-time">
+                    09:33
+                </td>
+                <td>
+                    Test message 2
+                </td>
+            </tr>
+        </tbody>
+        <tbody>
+            <tr>
+                <td colspan="2">
+                    <p>Add new:</p>
+                    <div class="chat-add-form">
+                        <form>
+                            <input type="hidden" name="id" value="">
+                            <input type="text" name="text" class="form-control" value="">
+                        </form>
+                    </div>
+                    <p>&nbsp;</p>
+                    <a href="javascript: void(0);" class="btn btn-default btn-success" onclick="Chat.add();"><span class="glyphicon glyphicon-ok"></span></a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}

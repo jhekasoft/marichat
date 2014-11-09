@@ -1,20 +1,32 @@
-{% extends "TwigBundle::layout.html.twig" %}
+{% extends "::base.html.twig" %}
 
 {% block head %}
     <link rel="icon" sizes="16x16" href="{{ asset('favicon.ico') }}" />
-    <link rel="stylesheet" href="{{ asset('bundles/marichatchat/css/demo.css') }}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="{{ asset('bundles/marichatchat/css/bootstrap.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/marichatchat/css/bootstrap-theme.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/marichatchat/css/style.css') }}" />
+    <!--[if lt IE 9]>
+        <script src="{{ asset('bundles/marichatchat/js/respond.min.js') }}" type="text/javascript"></script>
+        <script src="{{ asset('bundles/marichatchat/js/html5shiv.js') }}" type="text/javascript"></script>
+    <![endif]-->
+    <script src="{{ asset('bundles/marichatchat/js/jquery.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/marichatchat/js/bootstrap.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/marichatchat/js/jquery.json.min.js') }}" type="text/javascript"></script>
+
 {% endblock %}
 
-{% block title 'Demo Bundle' %}
+{% block title 'Marichat' %}
 
 {% block body %}
-    {% for flashMessage in app.session.flashbag.get('notice') %}
+    {#% for flashMessage in app.session.flashbag.get('notice') %}
         <div class="flash-message">
             <em>Notice</em>: {{ flashMessage }}
         </div>
-    {% endfor %}
+    {% endfor %#}
 
-    {% block content_header %}
+    {#% block content_header %}
         <ul id="menu">
             {% block content_header_more %}
                 <li><a href="{{ path('_demo') }}">Demo Home</a></li>
@@ -22,11 +34,22 @@
         </ul>
 
         <div style="clear: both"></div>
-    {% endblock %}
+    {% endblock %#}
 
-    <div class="block">
-        {% block content %}{% endblock %}
+    <!-- Static navbar -->
+    <div class="navbar navbar-default" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="{{ path('_demo') }}">Marichat</a>
+            </div>
+            <div class="navbar-collapse collapse">
+            </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
     </div>
+
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div> <!-- /container -->
 
     {% if code is defined %}
         <h2>Code behind this page</h2>
