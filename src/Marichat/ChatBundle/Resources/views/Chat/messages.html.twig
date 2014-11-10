@@ -1,7 +1,7 @@
 {% for message in messages %}
     <tr class="chat-row">
         <td class="chat-row-time">
-            {#{ message.time }#}
+            {{ message.time|date('Y-m-d H:i:s') }}
         </td>
         <td>
             {{ message.text }}

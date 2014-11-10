@@ -5,7 +5,8 @@ namespace Marichat\ChatBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Marichat\ChatBundle\Form\ContactType;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Marichat\ChatBundle\Form\ChatType;
 
 // these import the "@Route" and "@Template" annotations
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -22,6 +23,25 @@ class ChatController extends Controller
         $messages = $this->getDoctrine()
             ->getRepository('MarichatChatBundle:Message')->findAll();
 
-        return array('messages' => $messages);
+        $form = $this->createForm(new ChatType());
+
+        return array(
+            'messages' => $messages,
+            'form' => $form->createView(),
+        );
+    }
+
+    /**
+     * @Route("/add", name="_chat_add")
+     * @Template()
+     */
+    public function addAction()
+    {
+        $data = array('test' => 'test_1');
+        if (!$this->getRequest()->isXmlHttpRequest()) {
+            $data = array('test' => 'test_noajax1');
+        }
+
+        return new JsonResponse($data);
     }
 }

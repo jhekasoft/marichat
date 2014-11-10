@@ -25,10 +25,7 @@
                 <td colspan="2">
                     <p>Add new:</p>
                     <div class="chat-add-form">
-                        <form>
-                            <input type="hidden" name="id" value="">
-                            <input type="text" name="text" class="form-control" value="">
-                        </form>
+                        {{ form(form) }}
                     </div>
                     <p>&nbsp;</p>
                     <a href="javascript: void(0);" class="btn btn-default btn-success" onclick="Chat.add();"><span class="glyphicon glyphicon-ok"></span></a>
