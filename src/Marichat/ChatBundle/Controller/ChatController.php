@@ -19,6 +19,9 @@ class ChatController extends Controller
      */
     public function indexAction()
     {
-        return array();
+        $messages = $this->getDoctrine()
+            ->getRepository('MarichatChatBundle:Message')->findAll();
+
+        return array('messages' => $messages);
     }
 }

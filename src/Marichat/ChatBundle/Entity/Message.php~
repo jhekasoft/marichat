@@ -1,0 +1,29 @@
+<?php
+
+namespace Marichat\ChatBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="messages")
+ */
+class Message
+{
+    /**
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+    /**
+     * @ORM\Column(type="datetime", name="time")
+     */
+    protected $time;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    protected $text;
+}

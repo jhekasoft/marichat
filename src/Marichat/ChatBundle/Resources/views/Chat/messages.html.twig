@@ -1,0 +1,10 @@
+{% for message in messages %}
+    <tr class="chat-row">
+        <td class="chat-row-time">
+            {#{ message.time }#}
+        </td>
+        <td>
+            {{ message.text }}
+        </td>
+    </tr>
+{% endfor %}

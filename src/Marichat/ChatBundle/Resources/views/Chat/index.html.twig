@@ -18,22 +18,7 @@
             </tr>
         </thead>
         <tbody class="chat-items">
-            <tr class="chat-row">
-                <td class="chat-row-time">
-                    09:30
-                </td>
-                <td>
-                    Test message 1
-                </td>
-            </tr>
-            <tr class="chat-row">
-                <td class="chat-row-time">
-                    09:33
-                </td>
-                <td>
-                    Test message 2
-                </td>
-            </tr>
+            {{ include('MarichatChatBundle::Chat/messages.html.twig', { 'messages': messages }) }}
         </tbody>
         <tbody>
             <tr>
