@@ -14,7 +14,6 @@
     <script src="{{ asset('bundles/marichatchat/js/jquery.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('bundles/marichatchat/js/bootstrap.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('bundles/marichatchat/js/jquery.json.min.js') }}" type="text/javascript"></script>
-
 {% endblock %}
 
 {% block title 'Marichat' %}
@@ -29,7 +28,7 @@
     {#% block content_header %}
         <ul id="menu">
             {% block content_header_more %}
-                <li><a href="{{ path('_demo') }}">Demo Home</a></li>
+                <li><a href="{{ path('_chat') }}">Demo Home</a></li>
             {% endblock %}
         </ul>
 
@@ -40,7 +39,7 @@
     <div class="navbar navbar-default" role="navigation">
         <div class="container">
             <div class="navbar-header">
-                <a class="navbar-brand" href="{{ path('_demo') }}">Marichat</a>
+                <a class="navbar-brand" href="{{ path('_chat') }}">Marichat</a>
             </div>
             <div class="navbar-collapse collapse">
             </div><!--/.nav-collapse -->

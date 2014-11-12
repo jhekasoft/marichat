@@ -1,5 +1,32 @@
 {% extends "MarichatChatBundle::layout.html.twig" %}
 
+{% block head %}
+    {{ parent() }}
+    {% javascripts
+        '@MarichatChatBundle/Resources/public/js/chat.js'
+    %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+    <script type="text/javascript">
+        Chat.webSocketsUlr = '{{ webSocketsUlr }}';
+        Chat.addUrl = '{{ path('_chat_add') }}';
+        Chat.getEditFormUrl = '{{ '' }}';
+        Chat.editUrl = '{{ '' }}';
+        Chat.deleteUrl = '{{ '' }}';
+        Chat.getListUrl = '{{ path('_chat_messages') }}';
+        Chat.changeStatusUrl = '{{ '' }}';
+        Chat.createSocketConnection();
+
+        $(document).ready(function() {
+            $('form[name="chat"]').submit(function() {
+                Chat.add();
+                return false;
+            });
+        });
+    </script>
+{% endblock %}
+
 {% block title "(2) Marichat" %}
 
 {#% block content_header '' %#}
@@ -25,10 +52,10 @@
                 <td colspan="2">
                     <p>Add new:</p>
                     <div class="chat-add-form">
-                        {{ form(form) }}
+                        {{ include('MarichatChatBundle::Chat/addform.html.twig', { 'form': form }) }}
                     </div>
-                    <p>&nbsp;</p>
-                    <a href="javascript: void(0);" class="btn btn-default btn-success" onclick="Chat.add();"><span class="glyphicon glyphicon-ok"></span></a>
+                    {#<p>&nbsp;</p>
+                    <a href="javascript: void(0);" class="btn btn-default btn-success" onclick="Chat.add();"><span class="glyphicon glyphicon-ok"></span></a>#}
                 </td>
             </tr>
         </tbody>

@@ -1,0 +1,2 @@
+_marichat_chat:
+    resource: "@MarichatChatBundle/Resources/config/routing.yml"
