@@ -17,14 +17,31 @@ use Marichat\ChatBundle\Entity\Message;
 
 class ChatController extends Controller
 {
+
+    public function getLastMessages()
+    {
+        $repository = $this->getDoctrine()
+            ->getRepository('MarichatChatBundle:Message');
+
+        $datetime = new \DateTime();
+        $datetime->sub(new \DateInterval('P1D'));
+        $query = $repository->createQueryBuilder('m')
+            ->where('m.time >= :datetime')
+            ->setParameter('datetime', $datetime->format(\DateTime::ISO8601))
+            ->orderBy('m.time', 'ASC')
+            ->getQuery();
+
+        return $query->getResult();
+    }
+
+
     /**
      * @Route("/", name="_chat")
      * @Template()
      */
     public function indexAction()
     {
-        $messages = $this->getDoctrine()
-            ->getRepository('MarichatChatBundle:Message')->findAll();
+        $messages = $this->getLastMessages();
 
         $form = $this->createForm(new ChatType());
 
@@ -57,8 +74,7 @@ class ChatController extends Controller
             $em->persist($message);
             $em->flush();
 
-            $messages = $this->getDoctrine()
-                ->getRepository('MarichatChatBundle:Message')->findAll();
+            $messages = $this->getLastMessages();
 
             $form = $this->createForm(new ChatType());
             $formHtml = $this->renderView('MarichatChatBundle::Chat/addform.html.twig', array('form' => $form->createView()));
@@ -88,8 +104,7 @@ class ChatController extends Controller
             throw new AccessDeniedHttpException('Not ajax request');
         }
 
-        $messages = $this->getDoctrine()
-            ->getRepository('MarichatChatBundle:Message')->findAll();
+        $messages = $this->getLastMessages();
         $messagesHtml = $this->renderView('MarichatChatBundle::Chat/messages.html.twig', array('messages' => $messages));
 
         return new JsonResponse(array(

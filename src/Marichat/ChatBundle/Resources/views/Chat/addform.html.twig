@@ -1,1 +1,12 @@
 {{ form(form) }}
+{% image '@MarichatChatBundle/Resources/public/images/ajax-loader.gif' %}
+    <img class="add-loading" src="{{ asset_url }}" alt="Loading..." />
+{% endimage %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('form[name="chat"]').submit(function() {
+            Chat.add();
+            return false;
+        });
+    });
+</script>

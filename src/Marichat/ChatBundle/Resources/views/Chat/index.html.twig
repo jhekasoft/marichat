@@ -19,10 +19,7 @@
         Chat.createSocketConnection();
 
         $(document).ready(function() {
-            $('form[name="chat"]').submit(function() {
-                Chat.add();
-                return false;
-            });
+            Chat.scrollToWrite();
         });
     </script>
 {% endblock %}
@@ -54,8 +51,6 @@
                     <div class="chat-add-form">
                         {{ include('MarichatChatBundle::Chat/addform.html.twig', { 'form': form }) }}
                     </div>
-                    {#<p>&nbsp;</p>
-                    <a href="javascript: void(0);" class="btn btn-default btn-success" onclick="Chat.add();"><span class="glyphicon glyphicon-ok"></span></a>#}
                 </td>
             </tr>
         </tbody>

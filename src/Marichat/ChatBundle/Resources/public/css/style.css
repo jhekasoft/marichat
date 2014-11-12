@@ -44,3 +44,7 @@
 .online-status-online {
     display: none;
 }
+
+.chat-add-form .add-loading {
+    display: none;
+}

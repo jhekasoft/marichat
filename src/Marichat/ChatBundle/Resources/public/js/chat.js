@@ -19,24 +19,47 @@ var Chat = {
     connectionCheckTimeout: null,
     checkConnectionTime: 10000,
     add: function() {
+        formData = $('.chat-add-form input').serialize();
+
+        Chat.showAddSpinner();
+
         $.ajax({
             type: "POST",
             url: Chat.addUrl,
-            data: $('.chat-add-form input').serialize()
+            data: formData
         }).done(function(response) {
             if ('ok' == response.result && response.listHtml) {
                 $('.chat-items').html(response.listHtml);
+
+                Chat.scrollToWrite();
             }
 
             if (response.addFormHtml) {
                 $('.chat-add-form').html(response.addFormHtml);
             }
 
+            Chat.hideAddSpinner();
+
             // Send notification for other users
             Chat.sendNotification({
                 message: Chat.notifyMessageAdded
             });
         });
+    },
+    showAddSpinner: function() {
+        $('.chat-add-form input').attr('disabled', true);
+        $('.chat-add-form #chat_submit').hide();
+        $('.chat-add-form .add-loading').show();
+    },
+    hideAddSpinner: function() {
+        $('.chat-add-form input').attr('disabled', false);
+        $('.chat-add-form #chat_submit').show();
+        $('.chat-add-form .add-loading').hide();
+    },
+    scrollToWrite: function() {
+        $('html, body').animate({
+            scrollTop: $(".chat-add-form").offset().top
+        }, 1000);
     },
     getEditForm: function(id) {
         Chat.isEditingRowNow = true;
