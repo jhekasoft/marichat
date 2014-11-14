@@ -3,7 +3,7 @@
 namespace Marichat\ChatBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\RedirectResponse;
+//use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Marichat\ChatBundle\Form\ChatType;
@@ -14,26 +14,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Marichat\ChatBundle\Entity\Message;
+//use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+//use Symfony\Component\Security\Core\SecurityContext;
 
 class ChatController extends Controller
 {
-
-    public function getLastMessages()
-    {
-        $repository = $this->getDoctrine()
-            ->getRepository('MarichatChatBundle:Message');
-
-        $datetime = new \DateTime();
-        $datetime->sub(new \DateInterval('P1D'));
-        $query = $repository->createQueryBuilder('m')
-            ->where('m.time >= :datetime')
-            ->setParameter('datetime', $datetime->format(\DateTime::ISO8601))
-            ->orderBy('m.time', 'ASC')
-            ->getQuery();
-
-        return $query->getResult();
-    }
-
 
     /**
      * @Route("/", name="_chat")
@@ -69,6 +54,7 @@ class ChatController extends Controller
             $message = new Message();
             $message->setText($form->get('message')->getData());
             $message->setTime(new \DateTime());
+            $message->setUserId($this->getCurrentUserId());
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($message);
@@ -111,5 +97,32 @@ class ChatController extends Controller
             'result' => 'ok',
             'listHtml' => $messagesHtml,
         ));
+    }
+
+    protected function getLastMessages()
+    {
+        $repository = $this->getDoctrine()
+            ->getRepository('MarichatChatBundle:Message');
+
+        $datetime = new \DateTime();
+        $datetime->sub(new \DateInterval('P1D'));
+        $query = $repository->createQueryBuilder('m')
+            ->where('m.time >= :datetime')
+            ->setParameter('datetime', $datetime->format(\DateTime::ISO8601))
+            ->orderBy('m.time', 'ASC')
+            ->getQuery();
+
+        return $query->getResult();
+    }
+
+    protected function getCurrentUserId()
+    {
+        $username = '';
+
+        if ($this->getUser() !== null) {
+            $username = $this->getUser()->getUsername();
+        }
+
+        return Message::getUserIdFromUsername($username);
     }
 }

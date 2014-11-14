@@ -28,9 +28,14 @@ class Message
     protected $text;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    protected $user_id;
+
+    /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -53,7 +58,7 @@ class Message
     /**
      * Get time
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getTime()
     {
@@ -76,10 +81,57 @@ class Message
     /**
      * Get text
      *
-     * @return string 
+     * @return string
      */
     public function getText()
     {
         return $this->text;
+    }
+
+    /**
+     * Set user_id
+     *
+     * @param integer $text
+     * @return Message
+     */
+    public function setUserId($userId)
+    {
+        $this->user_id = $userId;
+
+        return $this;
+    }
+
+    /**
+     * Get user_id
+     *
+     * @return integer
+     */
+    public function getUserId()
+    {
+        return $this->user_id;
+    }
+
+    public function getUsername()
+    {
+        switch ($this->user_id) {
+            case 1:
+                return 'jhekasoft';
+            case 2:
+                return 'veronika';
+        }
+
+        return 'unknown';
+    }
+
+    static public function getUserIdFromUsername($username)
+    {
+        switch ($username) {
+            case 'jhekasoft':
+                return 1;
+            case 'veronika':
+                return 2;
+        }
+
+        return 0;
     }
 }

@@ -15,8 +15,7 @@ security:
         in_memory:
             memory:
                 users:
-                    #user:  { password: userpass, roles: [ 'ROLE_USER' ] }
-                    #admin: { password: adminpass, roles: [ 'ROLE_ADMIN' ] }
+                    #admin:  { password: 121212, roles: [ 'ROLE_ADMIN' ] }
 
     # the main part of the security, where you can set up firewalls
     # for specific sections of your app
@@ -44,9 +43,23 @@ security:
             #anonymous: ~
             #http_basic:
             #    realm: "Secured Demo Area"
+            #context: my_context
+        # the login page has to be accessible for everybody
+        chat_login:
+            pattern:  ^/chat/login$
+            security: false
+        chat:
+            pattern:    ^/chat/
+            form_login:
+                check_path: _chat_security_check
+                login_path: _chat_login
+            logout:
+                path:   _chat_logout
+                target: _chat
+            anonymous: ~
 
     # with these settings you can restrict or allow access for different parts
     # of your application based on roles, ip, host or methods
     # http://symfony.com/doc/current/book/security.html#security-book-access-control-matching-options
     access_control:
-        #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: ^/chat/, roles: ROLE_USER }

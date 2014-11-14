@@ -1,0 +1,25 @@
+{% extends "MarichatChatBundle::layout.html.twig" %}
+
+{% block content %}
+    <h1>Login</h1>
+
+    {% if error %}
+        <div class="error">{{ error.message }}</div>
+    {% endif %}
+
+    <form action="{{ path("_chat_security_check") }}" method="post" id="login">
+        <div>
+            <label for="username">Username</label>
+            <input type="text" id="username" name="_username" value="{{ last_username }}" class="form-control" />
+        </div>
+
+        <div>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="_password" class="form-control" />
+        </div>
+
+        <button type="submit" class="btn btn-success">
+            Login
+        </button>
+    </form>
+{% endblock %}

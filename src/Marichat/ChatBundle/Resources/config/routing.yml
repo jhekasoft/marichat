@@ -1,12 +1,9 @@
-#_welcome:
-#    path:     /
-#    defaults: { _controller: MarichatChatBundle:Welcome:index }
-#
-#_chat_secured:
-#    resource: "@MarichatChatBundle/Controller/SecuredController.php"
-#    type:     annotation
-
 _chat:
     resource: "@MarichatChatBundle/Controller/ChatController.php"
+    type:     annotation
+    prefix:   /chat
+
+_chat_secured:
+    resource: "@MarichatChatBundle/Controller/SecuredController.php"
     type:     annotation
     prefix:   /chat

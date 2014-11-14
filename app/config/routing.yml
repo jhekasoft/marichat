@@ -1,2 +1,10 @@
 _marichat_chat:
     resource: "@MarichatChatBundle/Resources/config/routing.yml"
+
+# redirecting the root
+root:
+    path: /
+    defaults:
+        _controller: FrameworkBundle:Redirect:urlRedirect
+        path: /chat
+        permanent: true

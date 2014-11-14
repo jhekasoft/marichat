@@ -1,7 +1,8 @@
 {% for message in messages %}
     <tr class="chat-row">
         <td class="chat-row-time">
-            {{ message.time|date('Y-m-d H:i:s') }}
+            <div><strong>{{ message.username }}</strong></div>
+            <div title="{{ message.time|date('Y-m-d H:i:s') }}">{{ message.time|date('H:i:s') }}</div>
         </td>
         <td>
             {{ message.text }}

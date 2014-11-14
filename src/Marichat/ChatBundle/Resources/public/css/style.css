@@ -1,3 +1,7 @@
+.body-container {
+    margin-top: 50px;
+}
+
 .chat-row-time {
     width: 100px;
 }
@@ -38,7 +42,8 @@
 }
 
 .online-status {
-    margin-bottom: 20px;
+    margin-top: 10px;
+    display: inline-block;
 }
 
 .online-status-online {
@@ -47,4 +52,8 @@
 
 .chat-add-form .add-loading {
     display: none;
+}
+
+.user-status {
+    display: inline-block;
 }
