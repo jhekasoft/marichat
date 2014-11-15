@@ -30,10 +30,15 @@ class ChatController extends Controller
 
         $form = $this->createForm(new ChatType());
 
+        $host = $this->container->getParameter('marichat_websocket_host');
+        if (empty($host)) {
+            $host = $this->getRequest()->getHost();
+        }
+
         return array(
             'messages' => $messages,
             'form' => $form->createView(),
-            'webSocketsUlr' => 'ws://' . $this->getRequest()->getHost() . ':' . $this->container->getParameter('marichat_websocket_port'),
+            'webSocketsUlr' => 'ws://' . $host . ':' . $this->container->getParameter('marichat_websocket_port'),
         );
     }
 
