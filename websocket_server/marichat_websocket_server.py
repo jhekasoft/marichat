@@ -15,14 +15,14 @@ import yaml
 def handler(websocket, path):
     global clients
     clients.append(websocket)
-    print("New connection")
+    print("%s New connection" % time.ctime())
 
     while True:
         # Recieving message
         message = yield from websocket.recv()
         if message is None:
             break
-        print("< %s" % message)
+        print("%s < %s" % (time.ctime(), message))
 
         # Sending to the all clients except himself
         for client in clients:
@@ -32,11 +32,11 @@ def handler(websocket, path):
                 clients.remove(client)
                 continue
             yield from client.send(message)
-        print("Sended to the all clients except himself")
+        print("%s Sended to the all clients except himself" % time.ctime())
 
         time.sleep(0.1)
 
-    print("Connection closed")
+    print("%s Connection closed" % time.ctime())
 
 # Reading Symfony params config
 try:
@@ -45,12 +45,12 @@ try:
     f.close()
     port = config['parameters']['marichat_websocket_port']
 except Exception as e:
-    print('Exception while reading configuration: %s' % e);
+    print('%s Exception while reading configuration: %s' % (time.ctime(), e));
     port = 9000
 
 clients = [] # all connected websockets
 start_server = websockets.serve(handler, '', port)
-print("Marichat WebSocket server started at the port: %s" % port)
+print("%s Marichat WebSocket server started at the port: %s" % (time.ctime(), port))
 
 asyncio.get_event_loop().run_until_complete(start_server)
 asyncio.get_event_loop().run_forever()
