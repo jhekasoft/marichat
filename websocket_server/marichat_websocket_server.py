@@ -36,6 +36,8 @@ def handler(websocket, path):
 
         time.sleep(0.1)
 
+    print("Connection closed")
+
 # Reading Symfony params config
 try:
     f = open('../app/config/parameters.yml')
