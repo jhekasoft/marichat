@@ -191,6 +191,7 @@ var Chat = {
         this.webSocketConnection = new WebSocket(this.webSocketsUlr);
 
         this.webSocketConnection.onopen = function(e) {
+            Chat.refreshList();
             Chat.onlineStatusOn();
         };
 
