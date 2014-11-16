@@ -18,6 +18,7 @@ var Chat = {
     notifyMessageStatusChanged: 'statusChanged',
     connectionCheckTimeout: null,
     checkConnectionTime: 10000,
+    debug: false,
     add: function() {
         formData = $('.chat-add-form input').serialize();
 
@@ -191,11 +192,19 @@ var Chat = {
         this.webSocketConnection = new WebSocket(this.webSocketsUlr);
 
         this.webSocketConnection.onopen = function(e) {
+            if (Chat.debug) {
+                console.log('Connected');
+            }
+
             Chat.refreshList();
             Chat.onlineStatusOn();
         };
 
         this.webSocketConnection.onclose = function(e) {
+            if (Chat.debug) {
+                console.log('Connection closed');
+            }
+
             Chat.onlineStatusOff();
 
             Chat.connectionCheckTimeout = setTimeout(function() {
@@ -204,6 +213,10 @@ var Chat = {
         };
 
         this.webSocketConnection.onmessage = function(e) {
+            if (Chat.debug) {
+                console.log('Recieved message ' + e.data);
+            }
+
             Chat.handleNotification(e.data);
         };
     },
@@ -241,6 +254,10 @@ var Chat = {
 
         messageJson.section = this.notifySection;
         this.webSocketConnection.send($.toJSON(messageJson));
+
+        if (Chat.debug) {
+            console.log('Sended message ' + $.toJSON(messageJson));
+        }
     },
     handleNotification: function(message) {
         messageJson = $.evalJSON(message);

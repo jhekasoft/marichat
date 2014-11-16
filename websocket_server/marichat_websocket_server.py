@@ -25,7 +25,8 @@ def handler(websocket, path):
         print("%s < %s" % (time.ctime(), message))
 
         # Sending to the all clients except himself
-        for client in clients:
+        # We need to copy list because we will remove elements
+        for client in clients[:]:
             if client == websocket:
                 continue
             if not client.open:
@@ -33,8 +34,6 @@ def handler(websocket, path):
                 continue
             yield from client.send(message)
         print("%s Sended to the all clients except himself" % time.ctime())
-
-        time.sleep(0.1)
 
     print("%s Connection closed" % time.ctime())
 
