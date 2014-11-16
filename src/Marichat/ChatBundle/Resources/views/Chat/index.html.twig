@@ -21,6 +21,12 @@
 
         $(document).ready(function() {
             Chat.scrollToWrite();
+
+            $(document).ajaxError(function (event, jqXHR) {
+                if (403 === jqXHR.status) {
+                    window.location.reload();
+                }
+            });
         });
     </script>
 {% endblock %}

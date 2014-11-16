@@ -72,3 +72,9 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+services:
+    ajax.listener:
+        class: Marichat\ChatBundle\EventListener\AjaxAuthenticationListener
+        tags:
+          - { name: kernel.event_listener, event: kernel.exception, method: onCoreException, priority: 1000 }
