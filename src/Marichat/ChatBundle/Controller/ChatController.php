@@ -48,7 +48,7 @@ class ChatController extends Controller
      */
     public function addAction(Request $request)
     {
-        if (!$this->getRequest()->isXmlHttpRequest()) {
+        if (!$request->isXmlHttpRequest()) {
             throw new AccessDeniedHttpException('Not ajax request');
         }
 
@@ -89,18 +89,21 @@ class ChatController extends Controller
      * @Route("/messages", name="_chat_messages")
      * @Template()
      */
-    public function messagesAction()
+    public function messagesAction(Request $request)
     {
-        if (!$this->getRequest()->isXmlHttpRequest()) {
+        if (!$request->isXmlHttpRequest()) {
             throw new AccessDeniedHttpException('Not ajax request');
         }
 
         $messages = $this->getLastMessages();
         $messagesHtml = $this->renderView('MarichatChatBundle::Chat/messages.html.twig', array('messages' => $messages));
 
+        //$newMessagesCount = 2;
+
         return new JsonResponse(array(
             'result' => 'ok',
             'listHtml' => $messagesHtml,
+            //'newMessagesCount' => $newMessagesCount,
         ));
     }
 

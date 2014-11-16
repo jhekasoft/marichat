@@ -57,3 +57,17 @@
 .user-status {
     display: inline-block;
 }
+
+.messages-refresh-block {
+    float: right;
+    margin-top: -50px;
+    display: none;
+}
+
+.chat-items:hover .messages-refresh-block {
+    display: inline-block;
+}
+
+.messages-refresh-block .messages-loading {
+    display: none;
+}

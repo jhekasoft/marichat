@@ -155,13 +155,16 @@ var Chat = {
             });
         });
     },
-    refreshList: function() {
+    refreshList: function(afterCallback) {
         $.ajax({
             type: "POST",
             url: Chat.getListUrl,
         }).done(function(response) {
             if ('ok' == response.result && response.listHtml) {
                 $('.chat-items').html(response.listHtml);
+                if (afterCallback) {
+                    afterCallback();
+                }
             }
         });
     },
@@ -171,6 +174,18 @@ var Chat = {
         }
 
         this.refreshList();
+    },
+    refreshListGui: function() {
+        this.showMessagesSpinner();
+        this.refreshList(function() {Chat.hideMessagesSpinner()});
+    },
+    showMessagesSpinner: function() {
+        $('.messages-refresh-block .btn-messages-refresh').hide();
+        $('.messages-refresh-block .messages-loading').show();
+    },
+    hideMessagesSpinner: function() {
+        $('.messages-refresh-block .btn-messages-refresh').show();
+        $('.messages-refresh-block .messages-loading').hide();
     },
     changeStatus: function(id, status) {
         $.ajax({

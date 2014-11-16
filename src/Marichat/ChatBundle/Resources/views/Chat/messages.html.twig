@@ -9,3 +9,14 @@
         </td>
     </tr>
 {% endfor %}
+
+    <tr>
+        <td colspan="2">
+            <div class="messages-refresh-block">
+                <a href="javascript: void(0);" onclick="Chat.refreshListGui();" class="btn-messages-refresh btn btn-default"><span class="glyphicon glyphicon-refresh"></span></a>
+                {% image '@MarichatChatBundle/Resources/public/images/ajax-loader.gif' %}
+                    <img class="messages-loading" src="{{ asset_url }}" alt="Loading..." />
+                {% endimage %}
+            </div>
+        </td>
+    </tr>

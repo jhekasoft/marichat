@@ -18,7 +18,7 @@ class ChatType extends AbstractType
 
         $builder->add('submit', 'submit', array(
             'label' => 'OK',
-            'attr' => array('class' => 'btn btn-default btn-success glyphicon glyphicon-ok'),
+            'attr' => array('class' => 'btn btn-success glyphicon glyphicon-ok'),
         ));
     }
 
