@@ -4,6 +4,7 @@
 {% endimage %}
 <script type="text/javascript">
     $(document).ready(function() {
+        $('#chat_message').focus();
         $('form[name="chat"]').submit(function() {
             Chat.add();
             return false;
