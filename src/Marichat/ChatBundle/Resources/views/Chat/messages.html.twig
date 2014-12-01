@@ -1,17 +1,17 @@
 {% for message in messages %}
     <tr class="chat-row">
-        <td class="chat-row-time">
-            <div><strong>{{ message.username }}</strong></div>
-            <div title="{{ message.time|date('Y-m-d H:i:s') }}">{{ message.time|date('H:i:s') }}</div>
-        </td>
         <td>
+            <div class="chat-row-time">
+                <span><strong>{{ message.username }}</strong></span>
+                <span class="chat-time" title="{{ message.time|date('Y-m-d H:i:s') }}">{{ message.time|date('H:i:s') }}</span>
+            </div>
             {{ message.text }}
         </td>
     </tr>
 {% endfor %}
 
     <tr>
-        <td colspan="2">
+        <td>
             <div class="messages-refresh-block">
                 <a href="javascript: void(0);" onclick="Chat.refreshListGui();" class="btn-messages-refresh btn btn-default"><span class="glyphicon glyphicon-refresh"></span></a>
                 {% image '@MarichatChatBundle/Resources/public/images/ajax-loader.gif' %}

@@ -40,7 +40,6 @@
     <table class="chat-messages table table-striped">
         <thead>
             <tr>
-                <th>Time</th>
                 <th>Message</th>
             </tr>
         </thead>
@@ -49,7 +48,7 @@
         </tbody>
         <tbody>
             <tr>
-                <td colspan="2">
+                <td>
                     <p>Add new:</p>
                     <div class="chat-add-form">
                         {{ include('MarichatChatBundle::Chat/addform.html.twig', { 'form': form }) }}

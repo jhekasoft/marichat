@@ -3,7 +3,10 @@
 }
 
 .chat-row-time {
-    width: 100px;
+}
+
+.chat-time {
+    float: right;
 }
 
 .chat-title-done {
