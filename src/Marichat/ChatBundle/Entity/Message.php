@@ -123,6 +123,17 @@ class Message
         return 'unknown';
     }
 
+    public function getProcessedText()
+    {
+        $regExUrl = "/((((http|https|ftp|ftps)\:\/\/)|www\.)[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,4}(\/\S*)?)/";
+        $text = $this->getText();
+        if (preg_match($regExUrl, $text)) {
+            $text = preg_replace($regExUrl, "<a href=\"$1\" target=\"_blank\">$1</a>", $text);
+        }
+
+        return $text;
+    }
+
     static public function getUserIdFromUsername($username)
     {
         switch ($username) {

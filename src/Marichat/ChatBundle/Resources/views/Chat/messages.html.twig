@@ -5,7 +5,7 @@
                 <span><strong>{{ message.username }}</strong></span>
                 <span class="chat-time" title="{{ message.time|date('Y-m-d H:i:s') }}">{{ message.time|date('H:i:s') }}</span>
             </div>
-            {{ message.text }}
+            {{ message.processedText|raw }}
         </td>
     </tr>
 {% endfor %}
