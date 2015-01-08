@@ -6,9 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     {% stylesheets filter='cssrewrite'
         'bundles/marichatchat/css/bootstrap.min.css'
-        'bundles/marichatchat/css/bootstrap-theme.min.css'
-        'bundles/marichatchat/css/style.css' %}
-    <link rel="stylesheet" href="{{ asset_url }}" />
+        'bundles/marichatchat/css/bootstrap-theme.min.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+    {% stylesheets '@MarichatChatBundle/Resources/public/css/style.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
     <!--[if lt IE 9]>
         {% javascripts '@MarichatChatBundle/Resources/public/js/respond.min.js' %}

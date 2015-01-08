@@ -9,6 +9,7 @@ __email__ = "jheka@mail.ru"
 import asyncio
 import websockets
 import time
+import os
 import yaml
 
 @asyncio.coroutine
@@ -39,7 +40,7 @@ def handler(websocket, path):
 
 # Reading Symfony params config
 try:
-    f = open('../app/config/parameters.yml')
+    f = open(os.path.dirname(os.path.realpath(__file__))+'/../app/config/parameters.yml')
     config = yaml.safe_load(f)
     f.close()
     port = config['parameters']['marichat_websocket_port']

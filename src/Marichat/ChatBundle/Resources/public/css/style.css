@@ -74,3 +74,13 @@
 .messages-refresh-block .messages-loading {
     display: none;
 }
+
+.alert-chat-typing {
+    display: none;
+    margin-bottom: 0;
+    padding: 0px 4px;
+}
+
+.alert-chat-typing-username {
+    font-weight: bold;
+}

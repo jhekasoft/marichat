@@ -9,5 +9,8 @@
             Chat.add();
             return false;
         });
+        $('form[name="chat"]').keydown(function () {
+            Chat.notifyTyping('{{ app.user ? app.user.username : 'Anonymous' }}');
+        });
     });
 </script>

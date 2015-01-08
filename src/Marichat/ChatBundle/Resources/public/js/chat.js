@@ -16,8 +16,11 @@ var Chat = {
     notifyMessageUpdated: 'updated',
     notifyMessageDeleted: 'deleted',
     notifyMessageStatusChanged: 'statusChanged',
+    notifyMessageTyping: 'isTyping',
     connectionCheckTimeout: null,
     checkConnectionTime: 10000,
+    usernameTypingTime: 1000,
+    usernameLastTyping: {},
     debug: false,
     add: function() {
         formData = $('.chat-add-form input').serialize();
@@ -294,10 +297,31 @@ var Chat = {
             this.refreshListIfNotEditing();
         }
 
+        if (messageJson.message == Chat.notifyMessageTyping) {
+            this.showUserIsTyping(messageJson.username);
+        }
+
         if (messageJson.message == Chat.notifyMessageAdded ||
-                messageJson.message == Chat.notifyMessageDeleted ||
-                messageJson.message == Chat.notifyMessageStatusChanged) {
+            messageJson.message == Chat.notifyMessageDeleted ||
+            messageJson.message == Chat.notifyMessageStatusChanged) {
             this.refreshListIfNotEditing();
         }
+    },
+    notifyTyping: function(username) {
+        // Send notification for other users
+        Chat.sendNotification({
+            message: Chat.notifyMessageTyping, username: username
+        });
+    },
+    showUserIsTyping: function(username) {
+        $('.alert-chat-typing-username').text(username);
+        $('.alert-chat-typing').show();
+        Chat.usernameLastTyping = {'timestamp': new Date().getTime()};
+        setTimeout(function() {
+            var nowTimestamp = new Date().getTime();
+            if (Chat.usernameTypingTime <= nowTimestamp - Chat.usernameLastTyping.timestamp) {
+                $('.alert-chat-typing').hide();
+            }
+        }, Chat.usernameTypingTime);
     }
 };
