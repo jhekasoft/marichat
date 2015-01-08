@@ -38,11 +38,6 @@
 {% block content %}
 
     <table class="chat-messages table table-striped">
-        <thead>
-            <tr>
-                <th>Message</th>
-            </tr>
-        </thead>
         <tbody class="chat-items">
             {{ include('MarichatChatBundle::Chat/messages.html.twig', { 'messages': messages }) }}
         </tbody>
