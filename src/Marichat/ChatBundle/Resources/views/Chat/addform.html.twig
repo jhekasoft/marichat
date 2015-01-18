@@ -1,7 +1,5 @@
 {{ form(form) }}
-{% image '@MarichatChatBundle/Resources/public/images/ajax-loader.gif' %}
-    <img class="add-loading" src="{{ asset_url }}" alt="Loading..." />
-{% endimage %}
+<div class="add-loading loader">{{ 'Loading'|trans }}...</div>
 <script type="text/javascript">
     $(document).ready(function() {
         $('#chat_message').focus();

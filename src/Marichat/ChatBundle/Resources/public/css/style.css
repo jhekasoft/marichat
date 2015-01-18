@@ -37,13 +37,6 @@
     display: none;
 }
 
-.chat-row-loading {
-    display: none;
-    background: url('../img/ajax-loader.gif');
-    width: 16px;
-    height: 16px;
-}
-
 .online-status {
     margin-top: 10px;
     display: inline-block;
@@ -84,3 +77,42 @@
 .alert-chat-typing-username {
     font-weight: bold;
 }
+
+/* Ajax spinner */
+.loader {
+    margin: 4px;
+    font-size: 10px;
+    position: relative;
+    text-indent: -9999em;
+    border: 0.5em solid rgba(100, 100, 100, 0.2);
+    border-left: 0.5em solid #777;
+    -webkit-animation: load8 1.1s infinite linear;
+    animation: load8 1.1s infinite linear;
+}
+.loader,
+.loader:after {
+    border-radius: 50%;
+    width: 3em;
+    height: 3em;
+}
+@-webkit-keyframes load8 {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+@keyframes load8 {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+/* Ajax spinner */
