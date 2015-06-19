@@ -9,6 +9,17 @@ parameters:
     # You should uncomment this if you want use pdo_sqlite
     # database_path: "%kernel.root_dir%/data.db3"
 
+    # TurboSMS
+    sms_driver:   pdo_mysql
+    sms_host:     94.249.146.189
+    sms_port:     ~
+    sms_name:     users
+    sms_user:     root
+    sms_password: ~
+    sms_sign:     test
+    sms_to_numbers:
+        username: '+380901234567'
+
     mailer_transport:  smtp
     mailer_host:       127.0.0.1
     mailer_user:       ~

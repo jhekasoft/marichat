@@ -16,6 +16,12 @@ class ChatType extends AbstractType
             'attr' => array('placeholder' => 'Message', 'class' => 'form-control')
         ));
 
+        $builder->add('send_sms', 'checkbox', array(
+            'required' => false,
+            'label' => 'SMS',
+            'attr' => array('class' => 'form-control')
+        ));
+
         $builder->add('submit', 'submit', array(
             'label' => 'OK',
             'attr' => array('class' => 'btn btn-success glyphicon glyphicon-ok'),

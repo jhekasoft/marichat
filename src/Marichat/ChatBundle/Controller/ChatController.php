@@ -2,6 +2,7 @@
 
 namespace Marichat\ChatBundle\Controller;
 
+use Marichat\ChatBundle\Sms\TurboSms;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 //use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -45,6 +46,8 @@ class ChatController extends Controller
     /**
      * @Route("/add", name="_chat_add")
      * @Template()
+     * @param Request $request
+     * @return JsonResponse
      */
     public function addAction(Request $request)
     {
@@ -56,14 +59,27 @@ class ChatController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            $messageText = $form->get('message')->getData();
+
             $message = new Message();
-            $message->setText($form->get('message')->getData());
+            $message->setText($messageText);
             $message->setTime(new \DateTime());
             $message->setUserId($this->getCurrentUserId());
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($message);
             $em->flush();
+
+            // SMS sending
+            $smsStatus = NULL;
+            $sendSms = $form->get('send_sms')->getData();
+            $smsToNumbers = $this->container->getParameter('sms_to_numbers');
+            $username = $this->getUser()->getUsername();
+            if ($sendSms && !empty($smsToNumbers[$username])) {
+                /** @var TurboSms $smsSender */
+                $smsSender = $this->get('marichat.sms');
+                $smsStatus = $smsSender->send($smsToNumbers[$username], $messageText, $request->getSchemeAndHttpHost());
+            }
 
             $messages = $this->getLastMessages();
 
@@ -75,6 +91,7 @@ class ChatController extends Controller
                 'result' => 'ok',
                 'listHtml' => $messagesHtml,
                 'addFormHtml' => $formHtml,
+                'smsStatus' => $smsStatus,
             ));
         }
 
