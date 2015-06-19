@@ -17,6 +17,7 @@ parameters:
     sms_user:     root
     sms_password: ~
     sms_sign:     test
+    # usernames and numbers to send his SMS (it's actually if there is only 2 users in chat)
     sms_to_numbers:
         username: '+380901234567'
 

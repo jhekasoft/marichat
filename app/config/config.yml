@@ -82,7 +82,8 @@ doctrine:
         entity_managers:
             default:
                 connection: default
-                auto_mapping: true
+                mappings:
+                    MarichatChatBundle:  ~
             sms:
                 connection: sms
 
