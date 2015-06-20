@@ -1,4 +1,8 @@
-{{ form(form) }}
+{{ form_start(form) }}
+{{ form_widget(form.message) }}
+<div class="sms-element">{{ form_widget(form.send_sms) }}{{ form_label(form.send_sms) }}</div>
+{{ form_widget(form.submit) }}
+{{ form_end(form) }}
 <div class="add-loading loader">{{ 'Loading'|trans }}...</div>
 <script type="text/javascript">
     $(document).ready(function() {

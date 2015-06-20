@@ -49,15 +49,17 @@
         <div class="container">
             <div class="navbar-header">
                 <a class="navbar-brand" href="{{ path('_chat') }}">{{ 'Marichat'|trans }}</a>
-                <div class="online-status">
-                    <div class="online-status-offline"><span class="label label-default"><span class="glyphicon glyphicon-remove"></span> {{ 'Offline'|trans }}</span></div>
-                    <div class="online-status-online"><span class="label label-success"><span class="glyphicon glyphicon-ok"></span> {{ 'Online'|trans }}</span></div>
-                </div>
-                {% if app.user %}
-                    <div class="user-status">
-                        <strong>{{ app.user ? app.user.username : 'Anonymous' }}</strong> (<a href="{{ path('_chat_logout') }}">{{ 'logout'|trans }}</a>)
+                <div class="navbar-left">
+                    <div class="online-status">
+                        <div class="online-status-offline"><span class="label label-default"><span class="glyphicon glyphicon-remove"></span> {{ 'Offline'|trans }}</span></div>
+                        <div class="online-status-online"><span class="label label-success"><span class="glyphicon glyphicon-ok"></span> {{ 'Online'|trans }}</span></div>
                     </div>
-                {% endif %}
+                    {% if app.user %}
+                        <div class="user-status">
+                            <strong>{{ app.user ? app.user.username : 'Anonymous' }}</strong> (<a href="{{ path('_chat_logout') }}">{{ 'logout'|trans }}</a>)
+                        </div>
+                    {% endif %}
+                </div>
             </div>
 
             </div><!--/.nav-collapse -->

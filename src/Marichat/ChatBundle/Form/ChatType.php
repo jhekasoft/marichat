@@ -19,7 +19,6 @@ class ChatType extends AbstractType
         $builder->add('send_sms', 'checkbox', array(
             'required' => false,
             'label' => 'SMS',
-            'attr' => array('class' => 'form-control')
         ));
 
         $builder->add('submit', 'submit', array(

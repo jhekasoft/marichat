@@ -78,6 +78,10 @@
     font-weight: bold;
 }
 
+.sms-element {
+    display: inline-block;
+}
+
 /* Ajax spinner */
 .loader {
     margin: 4px;
